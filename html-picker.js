@@ -51,6 +51,20 @@ if (forumComunidade) {
   );
 
   actions.forEach((action) => createCopiarPostButton(action));
+
+  // MutationObserver to watch for new posts being added
+  let observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1 && node.matches(".list-group-item")) {
+          let action = node.querySelector(".row > .col-xs-10 > .action");
+          if (action) createCopiarPostButton(action);
+        }
+      });
+    });
+  });
+
+  observer.observe(forumComunidade, { childList: true, subtree: true });
 } else {
   console.error("Could not find the 'forum-comunidade' element on the page.");
 }
