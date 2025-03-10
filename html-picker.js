@@ -1,6 +1,8 @@
 let forumComunidade = document.getElementById("forum-comunidade");
 
 const createCopiarPostButton = (action) => {
+  console.log("action :>> ", action);
+
   // Create a new <a> element (link/button)
   let newButton = document.createElement("a");
   newButton.href = "#bodyEditor"; // Set the href attribute
