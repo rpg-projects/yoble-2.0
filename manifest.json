@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Yoble 2.0",
+  "version": "1.0",
+  "description": "Multiple functionalities added to yoble website.",
+  "permissions": ["storage", "tabs", "scripting", "activeTab"],
+  "host_permissions": [
+    "https://yoble.us/*",
+    "https://yoble.us./*",
+    "https://yoble.com.br/*",
+    "https://yoble.com.br./*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["char-change.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/home",
+        "https://yoble.us./home",
+        "https://yoble.com.br/home",
+        "https://yoble.com.br./home"
+      ],
+      "js": ["login-redirect.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["insert-link-button.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["html-saver.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
