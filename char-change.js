@@ -16,7 +16,7 @@ if (responderBtn)
 
 // Save current page and logout
 trocarBtn.addEventListener("click", function (event) {
-  console.log("viajou?");
+  console.log("troquei char");
   event.preventDefault();
 
   localStorage.setItem("yoble_last_page", window.location.href);
@@ -76,14 +76,14 @@ fetch(`https://${address}/Main`)
   })
   .catch((err) => console.error("Error fetching the homepage:", err));
 
-//salvando o texto do textBox
+//salvando o texto do textBox independente da troca
 if (textBox) {
   textBox = document.querySelector(".note-editable.panel-body");
   console.log("textBox caso geral :>> ", textBox);
 
   textBox.addEventListener("input", function () {
     let textBoxContent = textBox.innerHTML;
-    localStorage.setItem("textBoxContent", textBox);
+    localStorage.setItem("textBoxContent", textBoxContent);
   });
   // removeDivTags(htmlToString(content))
 
