@@ -735,23 +735,6 @@ function deleteCharacter(id) {
   localStorage.setItem("characters", JSON.stringify(characters));
 }
 
-// Salvar texto se fechar a aba
-const textBox = document.querySelector(".note-editable.panel-body");
-
-if (textBox) {
-  textBox.addEventListener("input", function () {
-    let content = textBox;
-    localStorage.setItem("userText", removeDivTags(htmlToString(content)));
-  });
-
-  window.addEventListener("load", () => {
-    const savedContent = localStorage.getItem("userText");
-    if (textBox && savedContent) {
-      textBox.innerText = savedContent; // Ou innerHTML, se estiver usando HTML
-    }
-  });
-}
-
 function htmlToString(element) {
   // Check if the input is a string (selector) or an actual HTML element
   if (typeof element === "string") {

@@ -1,7 +1,7 @@
 let responderBtn = document.querySelector("button.btn.btn-default.btn-success");
 let address = window.location.href.split("//")[1].split("/")[0];
 
-if (!responderBtn) console.warn("button not found");
+let textBox = document.querySelector(".note-editable.panel-body");
 
 // Create the "Trocar de Char" button
 let trocarBtn = document.createElement("button");
@@ -10,18 +10,9 @@ trocarBtn.className = "btn btn-warning";
 trocarBtn.style.backgroundColor = "#6d56e1";
 trocarBtn.style.borderColor = "#6e57de";
 
-// Save current page and logout
-trocarBtn.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  localStorage.setItem("yoble_last_page", window.location.href);
-
-  localStorage.setItem("trocou_char", true);
-  window.location.href = `https://${address}/logout`;
-});
-
 // Insert button after "Responder"
-responderBtn.parentElement.insertBefore(trocarBtn, responderBtn.nextSibling);
+if (responderBtn)
+  responderBtn.parentElement.insertBefore(trocarBtn, responderBtn.nextSibling);
 
 // Fetch the homepage to get the avatar and name
 fetch(`https://${address}/Main`)
@@ -66,3 +57,36 @@ fetch(`https://${address}/Main`)
     // }
   })
   .catch((err) => console.error("Error fetching the homepage:", err));
+
+//salvando o texto do textBox
+if (textBox) {
+  textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+  console.log("textBox caso geral :>> ", textBox);
+
+  textBox.addEventListener("input", function () {
+    let content = textBox;
+    localStorage.setItem("userText", removeDivTags(htmlToString(content)));
+  });
+
+  window.addEventListener("load", () => {
+    const savedContent = localStorage.getItem("userText");
+    if (textBox && savedContent) {
+      textBox.innerText = savedContent; // Ou innerHTML, se estiver usando HTML
+    }
+  });
+}
+
+// Save current page and logout
+trocarBtn.addEventListener("click", function (event) {
+  event.preventDefault();
+
+  localStorage.setItem("yoble_last_page", window.location.href);
+  localStorage.setItem("trocou_char", true);
+
+  textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+  console.log("textBox caso trocou char :>> ", textBox);
+
+  localStorage.setItem("textBoxContent", textBoxContent);
+
+  window.location.href = `https://${address}/logout`;
+});
