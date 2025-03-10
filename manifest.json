@@ -10,7 +10,15 @@
     "https://yoble.com.br/*",
     "https://yoble.com.br./*"
   ],
-
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": "icon.png"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -48,6 +56,24 @@
       ],
       "js": ["html-saver.js"],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["html-picker.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/forum/*",
+        "https://yoble.us./Main/communities/forum/*",
+        "https://yoble.com.br/Main/communities/forum/*",
+        "https://yoble.com.br./Main/communities/forum/*"
+      ],
+      "js": ["forum-organizer.js"]
     }
   ]
 }

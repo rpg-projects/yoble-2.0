@@ -20,6 +20,7 @@ const addButton = document.createElement("button");
 
 buttonContainer.style.paddingLeft = "0";
 buttonContainer.style.paddingRight = "0";
+buttonContainer.style.marginBottom = "4rem";
 
 //Adicionar botão de "Adicionar HMTL" e "Menu de chars" na inicialização
 if (buttonContainer) {

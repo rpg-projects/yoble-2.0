@@ -4,9 +4,9 @@ let troucou_char = localStorage.getItem("trocou_char");
 if (troucou_char && lastPage) {
   let loginBtn = document.querySelector("input[value='Entrar']");
 
-  if (loginBtn) {
-    loginBtn.addEventListener("click", function () {
+  loginBtn.addEventListener("click", function () {
+    setTimeout(function () {
       window.location.href = lastPage;
-    });
-  }
+    }, 500); // 500ms delay
+  });
 }
