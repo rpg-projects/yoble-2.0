@@ -22,8 +22,7 @@ trocarBtn.addEventListener("click", function (event) {
   localStorage.setItem("trocou_char", true);
 
   textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-
-  localStorage.setItem("textBoxContentTrocaDeChar", textBox);
+  localStorage.setItem("textBoxContent", textBox);
 
   window.location.href = `https://${address}/logout`;
 
@@ -79,8 +78,8 @@ if (textBox) {
   textBox = document.querySelector(".note-editable.panel-body");
 
   textBox.addEventListener("input", function () {
-    let textBoxContent = textBox.innerHTML;
-    localStorage.setItem("textBoxContent", textBoxContent);
+    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+    localStorage.setItem("textBoxContent", textBox);
   });
   // removeDivTags(htmlToString(content))
 
@@ -91,3 +90,8 @@ if (textBox) {
     }
   });
 }
+
+//reinserindo e salvando texto
+let textBoxContent = localStorage.getItem("textBoxContent");
+
+textBox.innerHTML = textBoxContent;
