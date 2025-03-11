@@ -16,14 +16,12 @@ if (responderBtn)
 
 // Save current page and logout
 trocarBtn.addEventListener("click", function (event) {
-  console.log("troquei char");
   event.preventDefault();
 
   localStorage.setItem("yoble_last_page", window.location.href);
   localStorage.setItem("trocou_char", true);
 
   textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-  console.log("textBox caso trocou char :>> ", textBox);
 
   localStorage.setItem("textBoxContentTrocaDeChar", textBox);
 
@@ -79,7 +77,6 @@ fetch(`https://${address}/Main`)
 //salvando o texto do textBox independente da troca
 if (textBox) {
   textBox = document.querySelector(".note-editable.panel-body");
-  console.log("textBox caso geral :>> ", textBox);
 
   textBox.addEventListener("input", function () {
     let textBoxContent = textBox.innerHTML;
