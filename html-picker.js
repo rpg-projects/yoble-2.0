@@ -57,10 +57,12 @@ function addDeleteButton(actionElement) {
   let newButton = document.createElement("a");
   newButton.href = `https://yoble.us/Main/communities/thread/delete/reply/${replyId}`;
   newButton.setAttribute("data-comment", `#comment_${replyId}`);
-  newButton.textContent = "Delete";
-  newButton.classList.add("btn", "btn-danger", "btn-xs");
+  newButton.setAttribute("data-msg", "Confirma a exclusão da resposta?");
+  newButton.title = "Excluir resposta";
+  newButton.innerHTML = '<i class="fa fa-trash"></i>';
+  newButton.classList.add("btn", "btn-danger", "btn-xs", "trash");
 
-  actionElement.appendChild(newButton);
+  actionElement.prepend(newButton); // 🔹 Add at the beginning
 }
 
 if (forumComunidade) {
