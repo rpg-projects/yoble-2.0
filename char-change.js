@@ -74,24 +74,21 @@ fetch(`https://${address}/Main`)
   .catch((err) => console.error("Error fetching the homepage:", err));
 
 //salvando o texto do textBox independente da troca
-if (textBox) {
-  textBox = document.querySelector(".note-editable.panel-body");
+textBox = document.querySelector(".note-editable.panel-body");
 
-  textBox.addEventListener("input", function () {
-    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-    localStorage.setItem("textBoxContent", textBox);
-  });
-  // removeDivTags(htmlToString(content))
+textBox.addEventListener("input", function () {
+  textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+  localStorage.setItem("textBoxContent", textBox);
+});
+// removeDivTags(htmlToString(content))
 
-  window.addEventListener("load", () => {
-    const savedContent = localStorage.getItem("userText");
-    if (textBox && savedContent) {
-      textBox.innerText = savedContent; // Ou innerHTML, se estiver usando HTML
-    }
-  });
-}
+window.addEventListener("load", () => {
+  let textBoxContent = localStorage.getItem("textBoxContent");
 
-//reinserindo e salvando texto
-let textBoxContent = localStorage.getItem("textBoxContent");
+  textBox.innerHTML = textBoxContent;
+});
 
-textBox.innerHTML = textBoxContent;
+// Save current page and logout
+responderBtn.addEventListener("click", function (event) {
+  localStorage.setItem("textBoxContent", "");
+});
