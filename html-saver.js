@@ -726,6 +726,19 @@ function populateDropdownMenu(characters, dropdownMenu) {
 
     dropdownMenu.appendChild(charItem);
   });
+
+  let responderBtn = document.querySelector(
+    "button.btn.btn-default.btn-success"
+  );
+
+  responderBtn.addEventListener("click", () => {
+    if (selectedButton) {
+      selectedButton.style.fontWeight = "normal"; // Volta ao estado normal
+      selectedButton.style.color = "inherit"; // Restaura a cor original
+
+      selectedButton = null;
+    }
+  });
 }
 
 // Função para deletar um personagem
