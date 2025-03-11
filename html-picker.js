@@ -44,6 +44,25 @@ const createCopiarPostButton = (action) => {
   action.appendChild(newButton);
 };
 
+function addDeleteButton(actionElement) {
+  let replyId = actionElement
+    .querySelector("[data-reply]")
+    ?.getAttribute("data-reply");
+
+  if (!replyId) {
+    console.error("Could not find comment ID for delete button.");
+    return;
+  }
+
+  let newButton = document.createElement("a");
+  newButton.href = `https://yoble.us/Main/communities/thread/delete/reply/${replyId}`;
+  newButton.setAttribute("data-comment", `#comment_${replyId}`);
+  newButton.textContent = "Delete";
+  newButton.classList.add("btn", "btn-danger", "btn-xs");
+
+  actionElement.appendChild(newButton);
+}
+
 if (forumComunidade) {
   // Find all elements with class 'action' inside the forumComunidade element
   let actions = forumComunidade.querySelectorAll(
@@ -58,7 +77,10 @@ if (forumComunidade) {
       mutation.addedNodes.forEach((node) => {
         if (node.nodeType === 1 && node.matches(".list-group-item")) {
           let action = node.querySelector(".row > .col-xs-10 > .action");
-          if (action) createCopiarPostButton(action);
+          if (action) {
+            createCopiarPostButton(action);
+            addDeleteButton(action);
+          }
         }
       });
     });
