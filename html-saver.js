@@ -490,8 +490,6 @@ function createMenuButton() {
 }
 
 // Função para carregar personagens no dropdown (caso seja atualizado)
-
-//ERROO
 function loadCharacterDropdown(dropdownMenu) {
   dropdownMenu.innerHTML = ""; // Limpa a lista antes de adicionar os personagens
 
@@ -769,19 +767,21 @@ function populateDropdownMenu(characters, dropdownMenu) {
     dropdownMenu.appendChild(charItem);
   });
 
-  let responderBtn = document.querySelector(
-    "button.btn.btn-default.btn-success"
-  );
-
-  responderBtn.addEventListener("click", () => {
-    if (selectedButton) {
-      selectedButton.style.fontWeight = "normal"; // Volta ao estado normal
-      selectedButton.style.color = "inherit"; // Restaura a cor original
-
-      selectedButton = null;
-    }
-  });
+  submitButton.addEventListener("click", deselect(selectedButton));
+  cancelButton.addEventListener("click", deselect(selectedButton));
 }
+
+function deselect(selectedButton) {
+  if (selectedButton) {
+    selectedButton.style.fontWeight = "normal"; // Volta ao estado normal
+    selectedButton.style.color = "inherit"; // Restaura a cor original
+
+    selectedButton = null;
+  }
+}
+
+const textElement = document.querySelector(".note-editable.panel-body");
+textElement.addEventListener("input", () => {});
 
 // Função para deletar um personagem
 function deleteCharacter(id) {
