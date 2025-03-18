@@ -16,7 +16,7 @@ const buttonContainer = document.querySelector(".col-md-12").children[3];
 const backButton = buttonContainer.querySelector(".btn-info");
 const cancelButton = buttonContainer.querySelector(".btn-danger");
 const submitButton = buttonContainer.querySelector(".btn-success");
-const addButton = document.createElement("button");
+const addHTMLButton = document.createElement("button");
 
 buttonContainer.style.paddingLeft = "0";
 buttonContainer.style.paddingRight = "0";
@@ -24,7 +24,7 @@ buttonContainer.style.marginBottom = "4rem";
 
 //Adicionar botão de "Adicionar HMTL" e "Menu de chars" na inicialização
 if (buttonContainer) {
-  addButton.innerHTML = `<i class="fa fa-bookmark-o" aria-hidden="true"></i> <span>HTML</span>`;
+  addHTMLButton.innerHTML = `<i class="fa fa-bookmark-o" aria-hidden="true"></i> <span>HTML</span>`;
 
   // Apply styles to button container for better responsiveness
   buttonContainer.style.display = "flex";
@@ -34,21 +34,21 @@ if (buttonContainer) {
   buttonContainer.style.flexWrap = "nowrap"; // Prevents buttons from wrapping to a new row
 
   // Ensure buttons adjust dynamically
-  addButton.classList.add("btn", "btn-default", "btn-primary");
-  addButton.style.width = "auto"; // Lets button size adjust naturally
+  addHTMLButton.classList.add("btn", "btn-default", "btn-primary");
+  addHTMLButton.style.width = "auto"; // Lets button size adjust naturally
 
-  addButton.onclick = function (event) {
+  addHTMLButton.onclick = function (event) {
     event.preventDefault(); // Impede a ação do botão de sucesso
     event.stopPropagation(); // Para evitar que o clique propague para o botão de submit
     openFakePopup(); // Ao clicar, abre o popup
   };
 
   // Adiciona o botão após o botão de submit
-  submitButton.insertAdjacentElement("afterend", addButton);
+  submitButton.insertAdjacentElement("afterend", addHTMLButton);
+  addHTMLButton.style.marginLeft = "auto";
 
   // Verifica se há personagens e cria o botão "Menu de Chars"
   if (getCharacters().length > 0) {
-    addButton.style.marginLeft = "auto";
     createMenuButton();
   }
 }
@@ -387,7 +387,6 @@ function saveCharacter(charId = "") {
 
   // Atualiza o menu de chars
   if (characters.length === 1) {
-    addButton.style.marginLeft = "37%";
     createMenuButton();
   } else if (characters.length > 1) {
     const dropdownContainer = document.getElementById(
@@ -442,7 +441,7 @@ function createMenuButton() {
   dropdownContainer.appendChild(dropdownMenu);
 
   // Add the dropdown after the "Adicionar HTML" button
-  addButton.insertAdjacentElement("afterend", dropdownContainer);
+  addHTMLButton.insertAdjacentElement("afterend", dropdownContainer);
 
   // Populate the dropdown with saved characters (if needed)
   const characters = getCharacters(); // Assuming getCharacters() is already defined
@@ -450,6 +449,8 @@ function createMenuButton() {
 }
 
 // Função para carregar personagens no dropdown (caso seja atualizado)
+
+//ERROO
 function loadCharacterDropdown(dropdownMenu) {
   dropdownMenu.innerHTML = ""; // Limpa a lista antes de adicionar os personagens
 
@@ -459,7 +460,6 @@ function loadCharacterDropdown(dropdownMenu) {
       "dropdown-container-chars"
     );
     dropdownContainer.innerHTML = "";
-    addButton.style.marginLeft = "43%";
   } else {
     populateDropdownMenu(characters, dropdownMenu);
   }
