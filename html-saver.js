@@ -370,6 +370,8 @@ function openFakePopup(charData = {}) {
 // Função para salvar o personagem
 function saveCharacter(charId = "") {
   const id = charId == "" ? generateUUID() : charId;
+  const newChar = charId == "" ? true : false;
+
   const charName = document.getElementById("charName").value.trim();
   const charHtml = document.getElementById("charHtml").value.trim();
   const charSpeech = document.getElementById("charSpeech").value.trim();
@@ -392,7 +394,7 @@ function saveCharacter(charId = "") {
     (!part1 || !part2)
   ) {
     alert(
-      "HTML da narração deve conter a palavra 'TEXTO' separada entre espaços!"
+      "HTML da narração deve conter a palavra 'TEXTO' para indicar onde será o texto do post!"
     );
     return;
   }
@@ -404,7 +406,9 @@ function saveCharacter(charId = "") {
         !charSpeech.includes("fala")) &&
       (!falaPart1 || !falaPart2)
     ) {
-      alert("HTML da fala deve conter 'FALA' separada entre espaços!");
+      alert(
+        "HTML da fala deve conter 'FALA' para indicar onde será a fala do char!"
+      );
       return;
     }
   } else {
@@ -423,9 +427,9 @@ function saveCharacter(charId = "") {
   localStorage.setItem("characters", JSON.stringify(characters));
 
   // Atualiza o menu de chars
-  if (characters.length === 0) {
+  if (characters.length === 1 && newChar) {
     createMenuButton();
-  } else if (characters.length >= 1) {
+  } else if (characters.length > 1 || !newChar) {
     const dropdownContainer = document.getElementById(
       "dropdown-container-chars"
     );
@@ -481,7 +485,7 @@ function createMenuButton() {
   addHTMLButton.insertAdjacentElement("afterend", dropdownContainer);
 
   // Populate the dropdown with saved characters (if needed)
-  const characters = getCharacters(); // Assuming getCharacters() is already defined
+  const characters = getCharacters();
   populateDropdownMenu(characters, dropdownMenu);
 }
 
