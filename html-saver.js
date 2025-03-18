@@ -767,8 +767,17 @@ function populateDropdownMenu(characters, dropdownMenu) {
     dropdownMenu.appendChild(charItem);
   });
 
-  submitButton.addEventListener("click", deselect(selectedButton));
-  cancelButton.addEventListener("click", deselect(selectedButton));
+  submitButton.addEventListener("click", () => deselect(selectedButton));
+  cancelButton.addEventListener("click", () => deselect(selectedButton));
+
+  const textElement = document.querySelector(".note-editable.panel-body");
+  textElement.addEventListener("input", () => {
+    const text = textElement.innerHTML;
+    console.log("textElement :>> ", text);
+    if (text == "") {
+      deselect(selectedButton);
+    }
+  });
 }
 
 function deselect(selectedButton) {
@@ -779,9 +788,6 @@ function deselect(selectedButton) {
     selectedButton = null;
   }
 }
-
-const textElement = document.querySelector(".note-editable.panel-body");
-textElement.addEventListener("input", () => {});
 
 // Função para deletar um personagem
 function deleteCharacter(id) {
