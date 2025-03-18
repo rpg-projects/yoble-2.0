@@ -66,6 +66,12 @@ function disableButtons() {
     btn.style.pointerEvents = "none";
     btn.style.opacity = "0.5";
   });
+
+  const scrollY = window.scrollY;
+  document.querySelectorAll(".dropdown-toggle").forEach((button) => {
+    button.click();
+  });
+  window.scrollTo(0, scrollY);
 }
 
 function enableButtons() {
