@@ -58,8 +58,39 @@ function getCharacters() {
   return JSON.parse(localStorage.getItem("characters")) || [];
 }
 
+function disableButtons() {
+  const buttons = document.querySelectorAll(".dropdown-toggle, #addHTMLButton");
+  buttons.forEach((btn) => {
+    btn.disabled = true;
+    btn.classList.add("disabled");
+    btn.style.pointerEvents = "none";
+    btn.style.opacity = "0.5";
+  });
+}
+
+function enableButtons() {
+  const buttons = document.querySelectorAll(".dropdown-toggle, #addHTMLButton");
+  buttons.forEach((btn) => {
+    btn.disabled = false;
+    btn.classList.remove("disabled");
+    btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
+  });
+}
+
+//Fechar o fake popup
+function closePopup() {
+  const popup = document.getElementById("popupContainer");
+  if (popup) {
+    document.body.removeChild(popup);
+  }
+  enableButtons(); // Enable buttons only when closing popup
+}
+
 // Função para abrir o fake popup
 function openFakePopup(charData = {}) {
+  disableButtons();
+
   // Cria o elemento do popup
   const popupContainer = document.createElement("div");
   popupContainer.id = "popupContainer";
@@ -324,10 +355,10 @@ function openFakePopup(charData = {}) {
   // Event Listeners
   document.getElementById("saveChar").onclick = () => {
     saveCharacter(id);
+    closePopup(); // Close and enable buttons
   };
-  document.getElementById("closePopup").onclick = () => {
-    document.body.removeChild(popupContainer);
-  };
+
+  document.getElementById("closePopup").onclick = closePopup;
 }
 
 // Função para salvar o personagem
@@ -386,9 +417,9 @@ function saveCharacter(charId = "") {
   localStorage.setItem("characters", JSON.stringify(characters));
 
   // Atualiza o menu de chars
-  if (characters.length === 1) {
+  if (characters.length === 0) {
     createMenuButton();
-  } else if (characters.length > 1) {
+  } else if (characters.length >= 1) {
     const dropdownContainer = document.getElementById(
       "dropdown-container-chars"
     );
