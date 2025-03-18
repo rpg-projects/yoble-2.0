@@ -5,7 +5,7 @@ let textBox = document.querySelector(".note-editable.panel-body");
 
 // Create the "Trocar de Char" button
 let trocarBtn = document.createElement("button");
-trocarBtn.textContent = "Trocar char";
+trocarBtn.innerHTML = `<i class="fa fa-refresh" aria-hidden="true"></i> char`;
 trocarBtn.className = "btn btn-warning";
 trocarBtn.style.backgroundColor = "#6d56e1";
 trocarBtn.style.borderColor = "#6e57de";

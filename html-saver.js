@@ -24,7 +24,7 @@ buttonContainer.style.marginBottom = "4rem";
 
 //Adicionar botão de "Adicionar HMTL" e "Menu de chars" na inicialização
 if (buttonContainer) {
-  addButton.innerText = "Salvar novo HTML";
+  addButton.innerHTML = `<i class="fa fa-bookmark-o" aria-hidden="true"></i> <span>HTML</span>`;
 
   // Apply styles to button container for better responsiveness
   buttonContainer.style.display = "flex";
