@@ -517,9 +517,6 @@ function colocarHTML(char) {
   let isLineStart = true;
   let newText = [];
 
-  console.log("lineStart :>> ", lineStart);
-  console.log("lineEnd :>> ", lineEnd);
-
   for (let i = 0; i < text.length; i++) {
     if ((text[i] == "~" || text[i] == "—") && isLineStart) {
       newText.push(lineStart);
@@ -531,6 +528,7 @@ function colocarHTML(char) {
   }
 
   textElement.innerHTML = `${htmlPart1}${newText.join("")}${htmlPart2}`;
+  return textElement.innerHTML;
 }
 
 function normalizeHtmlPreservingTextContent(html) {
@@ -709,7 +707,10 @@ function populateDropdownMenu(characters, dropdownMenu) {
       if (selectedButton == null) {
         charButton.style.fontWeight = "bold"; // Estiliza como selecionado
         charButton.style.color = "black"; // Muda a cor quando selecionado
-        colocarHTML(char); // Chama a função ao clicar, passando o personagem como argumento
+
+        // adicionar textBoxContent manualmente
+        const text = colocarHTML(char); // Chama a função ao clicar, passando o personagem como argumento
+        localStorage.setItem("textBoxContent", text);
 
         selectedButton = charButton; // Track the selected button
         charButton.character = char; // Track the character to remove html later
