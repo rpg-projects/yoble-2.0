@@ -22,10 +22,10 @@
   "content_scripts": [
     {
       "matches": [
-        "https://yoble.us/Main/communities/*/topic/*",
-        "https://yoble.us./Main/communities/*/topic/*",
-        "https://yoble.com.br/Main/communities/*/topic/*",
-        "https://yoble.com.br./Main/communities/*/topic/*"
+        "https://yoble.us/*",
+        "https://yoble.us./*",
+        "https://yoble.com.br/*",
+        "https://yoble.com.br./*"
       ],
       "js": ["char-change.js"]
     },

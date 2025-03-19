@@ -33,24 +33,29 @@ trocarBtnLi.appendChild(trocarBtnLink);
 // Find the last item and insert the button before it
 const lastItem = dropdownMenu.lastElementChild;
 dropdownMenu.insertBefore(trocarBtnLi, lastItem);
-
-function trocarDeCharLogic() {
-  event.preventDefault();
+function trocarDeCharLogic(event, isBottom) {
+  if (isBottom) {
+    event.preventDefault();
+  }
 
   localStorage.setItem("yoble_last_page", window.location.href);
   localStorage.setItem("trocou_char", true);
 
-  textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+  // Check if textBox exists before trying to access it
+  const textBoxElement = document.querySelector(".note-editable.panel-body");
+  const textBox = textBoxElement ? textBoxElement.innerHTML : "";
   localStorage.setItem("textBoxContent", textBox);
 
   window.location.href = `https://${address}/logout`;
-
-  return false; // Prevent default behavior and stop event propagation
 }
 
-// Save current page and logout
-trocarBtnBottom.addEventListener("click", trocarDeCharLogic);
-trocarBtnTop.addEventListener("click", trocarDeCharLogic);
+// Attach event listeners correctly
+trocarBtnBottom.addEventListener("click", (event) =>
+  trocarDeCharLogic(event, true)
+); // Bottom prevents
+trocarBtnTop.addEventListener("click", (event) =>
+  trocarDeCharLogic(event, false)
+); // Top does not prevent
 
 // Fetch the homepage to get the avatar and name
 fetch(`https://${address}/Main`)

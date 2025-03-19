@@ -8,10 +8,7 @@ if (!loginBtn) {
 
 let domain = lastPage.split("//yoble.")[1]?.split("/")[0] || "";
 
-console.log("oi");
-
 loginBtn.addEventListener("click", () => {
-  console.log("logged in");
   setTimeout(() => {
     if (troucou_char && lastPage) {
       window.location.href = lastPage;
@@ -25,3 +22,8 @@ loginBtn.addEventListener("click", () => {
     }
   }, 500);
 });
+
+const rememberMeCheckbox = document.querySelector("input[name='rememberme']");
+if (rememberMeCheckbox) {
+  rememberMeCheckbox.checked = true;
+}
