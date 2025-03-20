@@ -39,7 +39,7 @@ function trocarDeCharLogic(event, isBottom) {
   }
 
   localStorage.setItem("yoble_last_page", window.location.href);
-  localStorage.setItem("trocou_char", true);
+  localStorage.setItem("trocou_char", "trocou");
 
   // Check if textBox exists before trying to access it
   const textBoxElement = document.querySelector(".note-editable.panel-body");
@@ -67,7 +67,8 @@ fetch(`https://${address}/Main`)
 
     // Extract the name from the h2 element inside the resume-user class
     let name = doc.querySelector(".resume-user h2").innerText.trim();
-    responderBtn.setAttribute("data-tooltip", `Responder com ${name}`);
+    if (responderBtn)
+      responderBtn.setAttribute("data-tooltip", `Responder com ${name}`);
 
     // Inject CSS for the tooltip
     let style = document.createElement("style");
@@ -111,27 +112,29 @@ fetch(`https://${address}/Main`)
     document.head.appendChild(style);
 
     // Add tooltip class to the button
-    responderBtn.classList.add("tooltip-btn");
+    if (responderBtn) responderBtn.classList.add("tooltip-btn");
   })
   .catch((err) => console.error("Error fetching the homepage:", err));
 
 //salvando o texto do textBox independente da troca
 textBox = document.querySelector(".note-editable.panel-body");
 
-textBox.addEventListener("input", function () {
-  textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-  localStorage.setItem("textBoxContent", textBox);
-});
+if (textBox && textBox?.getAttribute("data-placeholder") == undefined) {
+  textBox.addEventListener("input", function () {
+    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+    localStorage.setItem("textBoxContent", textBox);
+  });
 
-window.addEventListener("load", () => {
-  let textBoxContent = localStorage.getItem("textBoxContent");
+  window.addEventListener("load", () => {
+    let textBoxContent = localStorage.getItem("textBoxContent");
 
-  textBox.innerHTML = textBoxContent;
-});
+    textBox.innerHTML = textBoxContent;
+  });
 
-responderBtn.addEventListener("click", function (event) {
-  localStorage.setItem("textBoxContent", "");
-});
+  responderBtn.addEventListener("click", function (event) {
+    localStorage.setItem("textBoxContent", "");
+  });
+}
 
 // // Create the new container div
 // let containerDiv = document.createElement("div");

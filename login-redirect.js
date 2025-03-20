@@ -1,5 +1,5 @@
 let lastPage = localStorage.getItem("yoble_last_page");
-let troucou_char = localStorage.getItem("trocou_char") === "true";
+let troucou_char = localStorage.getItem("trocou_char");
 
 let loginBtn = document.querySelector("input[value='Entrar']");
 if (!loginBtn) {
@@ -10,15 +10,12 @@ let domain = lastPage.split("//yoble.")[1]?.split("/")[0] || "";
 
 loginBtn.addEventListener("click", () => {
   setTimeout(() => {
-    if (troucou_char && lastPage) {
+    if (troucou_char === "trocou" && lastPage) {
       window.location.href = lastPage;
 
-      localStorage.setItem("trocou_char", false);
-      troucou_char = localStorage.getItem("trocou_char") === "true";
+      localStorage.setItem("trocou_char", "naoTrocou");
     } else {
       window.location.href = `https://yoble.${domain}/Main`;
-
-      troucou_char = localStorage.getItem("trocou_char") === "true";
     }
   }, 500);
 });
