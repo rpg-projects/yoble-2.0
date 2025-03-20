@@ -120,15 +120,15 @@ fetch(`https://${address}/Main`)
 textBox = document.querySelector(".note-editable.panel-body");
 
 if (textBox && textBox?.getAttribute("data-placeholder") == undefined) {
-  textBox.addEventListener("input", function () {
-    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-    localStorage.setItem("textBoxContent", textBox);
-  });
-
   window.addEventListener("load", () => {
     let textBoxContent = localStorage.getItem("textBoxContent");
 
     textBox.innerHTML = textBoxContent;
+  });
+
+  textBox.addEventListener("input", function () {
+    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+    localStorage.setItem("textBoxContent", textBox);
   });
 
   responderBtn.addEventListener("click", function (event) {
