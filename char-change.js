@@ -31,8 +31,12 @@ trocarBtnLink.innerHTML = `Trocar de char`;
 trocarBtnLi.appendChild(trocarBtnLink);
 
 // Find the last item and insert the button before it
-const lastItem = dropdownMenu.lastElementChild;
-dropdownMenu.insertBefore(trocarBtnLi, lastItem);
+let lastItem;
+if (dropdownMenu) {
+  lastItem = dropdownMenu.lastElementChild;
+  dropdownMenu.insertBefore(trocarBtnLi, lastItem);
+}
+
 function trocarDeCharLogic(event, isBottom) {
   if (isBottom) {
     event.preventDefault();
