@@ -58,10 +58,10 @@
     },
     {
       "matches": [
-        "https://yoble.us/Main/communities/*/topic/*",
-        "https://yoble.us./Main/communities/*/topic/*",
-        "https://yoble.com.br/Main/communities/*/topic/*",
-        "https://yoble.com.br./Main/communities/*/topic/*"
+        "https://yoble.us/Main/communities/forum/*",
+        "https://yoble.us./Main/communities/forum/*",
+        "https://yoble.com.br/Main/communities/forum/*",
+        "https://yoble.com.br./Main/communities/forum/*"
       ],
       "js": ["forum-organizer.js"]
     },
