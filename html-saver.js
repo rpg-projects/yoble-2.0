@@ -18,6 +18,19 @@ const cancelButton = buttonContainer.querySelector(".btn-danger");
 const submitButton = buttonContainer.querySelector(".btn-success");
 const addHTMLButton = document.createElement("button");
 
+let selectedButton = null;
+
+//descelecionar para o caso de submit, cancel ou apagar texto
+submitButton.addEventListener("click", () => deselect());
+cancelButton.addEventListener("click", () => deselect());
+const textElement = document.querySelector(".note-editable.panel-body");
+textElement.addEventListener("input", () => {
+  const text = textElement.innerHTML;
+  if (text == "") {
+    deselect();
+  }
+});
+
 buttonContainer.style.paddingLeft = "0";
 buttonContainer.style.paddingRight = "0";
 buttonContainer.style.marginBottom = "4rem";
@@ -479,7 +492,7 @@ function createMenuButton() {
   // Add the dropdown after the "Adicionar HTML" button
   addHTMLButton.insertAdjacentElement("afterend", dropdownContainer);
 
-  // Populate the dropdown with saved characters (if needed)
+  // Populate the dropdown with saved characters
   const characters = getCharacters();
   populateDropdownMenu(characters, dropdownMenu);
 }
@@ -669,8 +682,6 @@ function populateDropdownMenu(characters, dropdownMenu) {
     dropdownMenu.style.marginTop = "-192px";
   }
 
-  let selectedButton = null;
-
   characters.forEach((char) => {
     const charItem = document.createElement("li");
     charItem.style.display = "flex";
@@ -693,6 +704,7 @@ function populateDropdownMenu(characters, dropdownMenu) {
     charButton.style.flexGrow = "1"; // Faz o botão ocupar o espaço à esquerda
 
     charButton.onclick = (event) => {
+      console.log("charButton.innerText :>> ", charButton.innerText);
       event.preventDefault(); // Impede o comportamento padrão
       event.stopPropagation();
 
@@ -761,20 +773,9 @@ function populateDropdownMenu(characters, dropdownMenu) {
 
     dropdownMenu.appendChild(charItem);
   });
-
-  submitButton.addEventListener("click", () => deselect(selectedButton));
-  cancelButton.addEventListener("click", () => deselect(selectedButton));
-
-  const textElement = document.querySelector(".note-editable.panel-body");
-  textElement.addEventListener("input", () => {
-    const text = textElement.innerHTML;
-    if (text == "") {
-      deselect(selectedButton);
-    }
-  });
 }
 
-function deselect(selectedButton) {
+function deselect() {
   if (selectedButton) {
     selectedButton.style.fontWeight = "normal"; // Volta ao estado normal
     selectedButton.style.color = "inherit"; // Restaura a cor original
