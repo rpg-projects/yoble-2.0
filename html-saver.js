@@ -469,11 +469,6 @@ function createMenuButton() {
   dropdownMenu.style.maxHeight = "150px";
   dropdownMenu.style.overflowY = "auto";
 
-  //fazer a lista crescer para cima
-  // dropdownMenu.style.display = "flex";
-  // dropdownMenu.style.flexDirection = "column-reverse";
-  // dropdownMenu.style.alignItems = "flex-start";
-
   dropdownMenu.style.marginTop = "-100px";
   dropdownMenu.style.marginLeft = "-115px";
 
@@ -773,7 +768,6 @@ function populateDropdownMenu(characters, dropdownMenu) {
   const textElement = document.querySelector(".note-editable.panel-body");
   textElement.addEventListener("input", () => {
     const text = textElement.innerHTML;
-    console.log("textElement :>> ", text);
     if (text == "") {
       deselect(selectedButton);
     }
@@ -813,16 +807,6 @@ function htmlToString(element) {
     return null; // Return null for invalid input
   }
 }
-
-// function cleanTextBoxContent(text) {
-//   const part1 =
-//     '<span class="selectable-text copyable-text" style="white-space-collapse: preserve;">';
-//   text = buscarParteERemover(part1, text).text;
-//   const part2 = "</span>";
-//   text = buscarParteERemover(part2, text).text;
-
-//   return text;
-// }
 
 function removeDivTags(inputString) {
   // Regex to match the specific <div> with variable height at the start
