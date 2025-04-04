@@ -36,12 +36,6 @@
         "https://yoble.com.br/*",
         "https://yoble.com.br./*"
       ],
-      "exclude_matches": [
-        "https://yoble.us/home",
-        "https://yoble.us./home",
-        "https://yoble.com.br/home",
-        "https://yoble.com.br./home"
-      ],
       "js": ["char-change.js"]
     },
     {
@@ -51,7 +45,25 @@
         "https://yoble.com.br/Main/communities/*/topic/*",
         "https://yoble.com.br./Main/communities/*/topic/*"
       ],
-      "js": ["insert-link-button.js", "html-picker.js", "forum-organizer.js"]
+      "js": ["insert-link-button.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["html-picker.js"]
+    },
+    {
+      "matches": [
+        "https://yoble.us/Main/communities/*/topic/*",
+        "https://yoble.us./Main/communities/*/topic/*",
+        "https://yoble.com.br/Main/communities/*/topic/*",
+        "https://yoble.com.br./Main/communities/*/topic/*"
+      ],
+      "js": ["forum-organizer.js"]
     },
     {
       "matches": [

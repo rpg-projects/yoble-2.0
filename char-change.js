@@ -1,143 +1,144 @@
-let responderBtn = document.querySelector("button.btn.btn-default.btn-success");
-
 let address = window.location.href.split("//")[1].split("/")[0];
 
+let responderBtn = document.querySelector("button.btn.btn-default.btn-success");
 let textBox = document.querySelector(".note-editable.panel-body");
 
-// Create the "Trocar de Char" button
+if (responderBtn && textBox) {
+  // Create the "Trocar de Char" button
 
-let trocarBtnBottom = document.createElement("button");
-trocarBtnBottom.innerHTML = `<i class="fa fa-refresh" aria-hidden="true"></i> Char`;
-trocarBtnBottom.className = "btn btn-warning";
-trocarBtnBottom.style.backgroundColor = "#6d56e1";
-trocarBtnBottom.style.borderColor = "#6e57de";
+  let trocarBtnBottom = document.createElement("button");
+  trocarBtnBottom.innerHTML = `<i class="fa fa-refresh" aria-hidden="true"></i> Char`;
+  trocarBtnBottom.className = "btn btn-warning";
+  trocarBtnBottom.style.backgroundColor = "#6d56e1";
+  trocarBtnBottom.style.borderColor = "#6e57de";
 
-// Insert button after "Responder"
-if (responderBtn)
+  trocarBtnBottom.addEventListener("click", (event) =>
+    trocarDeCharLogic(event, true)
+  );
+
+  // Insert button after "Responder"
   responderBtn.parentElement.insertBefore(
     trocarBtnBottom,
     responderBtn.nextSibling
   );
 
+  // Fetch the homepage to get the avatar and name
+  fetch(`https://${address}/Main`)
+    .then((response) => response.text())
+    .then((data) => {
+      // Create a temporary DOM element to parse the page content
+      let parser = new DOMParser();
+      let doc = parser.parseFromString(data, "text/html");
+
+      // Extract the name from the h2 element inside the resume-user class
+      let name = doc.querySelector(".resume-user h2").innerText.trim();
+      if (responderBtn)
+        responderBtn.setAttribute("data-tooltip", `Responder com ${name}`);
+
+      // Inject CSS for the tooltip
+      let style = document.createElement("style");
+      style.innerHTML = `
+    .tooltip-btn {
+      position: relative;
+    }
+    .tooltip-btn::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #171818;
+      color: white;
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease-in-out;
+    }
+    .tooltip-btn::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) scaleX(-1);
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid #171818; /* Arrow facing upwards */
+      opacity: 0;
+      transition: opacity 0.1s ease-in-out;
+    }
+    .tooltip-btn:hover::after,
+    .tooltip-btn:hover::before {
+      opacity: .6;
+    }
+  `;
+      document.head.appendChild(style);
+
+      // Add tooltip class to the button
+      if (responderBtn) responderBtn.classList.add("tooltip-btn");
+    })
+    .catch((err) => console.error("Error fetching the homepage:", err));
+
+  //salvando o texto do textBox independente da troca
+  textBox = document.querySelector(".note-editable.panel-body");
+
+  if (textBox && textBox?.getAttribute("data-placeholder") == undefined) {
+    window.addEventListener("load", () => {
+      let textBoxContent = localStorage.getItem("textBoxContent");
+
+      textBox.innerHTML = textBoxContent;
+    });
+
+    textBox.addEventListener("input", function () {
+      textBox = document.querySelector(".note-editable.panel-body").innerHTML;
+      localStorage.setItem("textBoxContent", textBox);
+    });
+
+    responderBtn.addEventListener("click", function (event) {
+      localStorage.setItem("textBoxContent", "");
+    });
+  }
+}
+
 // Select the dropdown menu
 const dropdownMenu = document.querySelector(".dropdown .dropdown-menu");
 
-// Create the "Trocar de Char" button inside a <li> element
-const trocarBtnLi = document.createElement("li");
-const trocarBtnLink = document.createElement("a");
-trocarBtnLink.href = "#";
-trocarBtnLink.id = "trocarBtnTop";
-trocarBtnLink.innerHTML = `Trocar de char`;
-trocarBtnLi.appendChild(trocarBtnLink);
-
-// Find the last item and insert the button before it
-let lastItem;
 if (dropdownMenu) {
-  lastItem = dropdownMenu.lastElementChild;
-  dropdownMenu.insertBefore(trocarBtnLi, lastItem);
+  // Create the "Trocar de Char" button inside a <li> element
+  const trocarBtnLi = document.createElement("li");
+  const trocarBtnLink = document.createElement("a");
+  trocarBtnLink.href = "#";
+  trocarBtnLink.id = "trocarBtnTop";
+  trocarBtnLink.innerHTML = `Trocar de char`;
+  trocarBtnLi.appendChild(trocarBtnLink);
+
+  trocarBtnLink.addEventListener("click", (event) =>
+    trocarDeCharLogic(event, false)
+  );
+
+  // Find the last item and insert the button before it
+  let lastItem;
+  if (dropdownMenu) {
+    lastItem = dropdownMenu.lastElementChild;
+    dropdownMenu.insertBefore(trocarBtnLi, lastItem);
+  }
 }
 
 function trocarDeCharLogic(event, isBottom) {
   if (isBottom) {
     event.preventDefault();
+
+    const textBoxElement = document.querySelector(".note-editable.panel-body");
+    const textBox = textBoxElement ? textBoxElement.innerHTML : "";
+    localStorage.setItem("textBoxContent", textBox);
   }
 
   localStorage.setItem("yoble_last_page", window.location.href);
   localStorage.setItem("trocou_char", "trocou");
 
-  // Check if textBox exists before trying to access it
-  const textBoxElement = document.querySelector(".note-editable.panel-body");
-  const textBox = textBoxElement ? textBoxElement.innerHTML : "";
-  localStorage.setItem("textBoxContent", textBox);
-
   window.location.href = `https://${address}/logout`;
-}
-
-// Attach event listeners correctly
-trocarBtnBottom.addEventListener("click", (event) =>
-  trocarDeCharLogic(event, true)
-); // Bottom prevents
-trocarBtnTop.addEventListener("click", (event) =>
-  trocarDeCharLogic(event, false)
-); // Top does not prevent
-
-// Fetch the homepage to get the avatar and name
-fetch(`https://${address}/Main`)
-  .then((response) => response.text())
-  .then((data) => {
-    // Create a temporary DOM element to parse the page content
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(data, "text/html");
-
-    // Extract the name from the h2 element inside the resume-user class
-    let name = doc.querySelector(".resume-user h2").innerText.trim();
-    if (responderBtn)
-      responderBtn.setAttribute("data-tooltip", `Responder com ${name}`);
-
-    // Inject CSS for the tooltip
-    let style = document.createElement("style");
-    style.innerHTML = `
-      .tooltip-btn {
-        position: relative;
-      }
-      .tooltip-btn::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        top: 120%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: #171818;
-        color: white;
-        padding: 6px 10px;
-        font-size: 11px;
-        border-radius: 4px;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.1s ease-in-out;
-      }
-      .tooltip-btn::before {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%) scaleX(-1);
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid #171818; /* Arrow facing upwards */
-        opacity: 0;
-        transition: opacity 0.1s ease-in-out;
-      }
-      .tooltip-btn:hover::after,
-      .tooltip-btn:hover::before {
-        opacity: .6;
-      }
-    `;
-    document.head.appendChild(style);
-
-    // Add tooltip class to the button
-    if (responderBtn) responderBtn.classList.add("tooltip-btn");
-  })
-  .catch((err) => console.error("Error fetching the homepage:", err));
-
-//salvando o texto do textBox independente da troca
-textBox = document.querySelector(".note-editable.panel-body");
-
-if (textBox && textBox?.getAttribute("data-placeholder") == undefined) {
-  window.addEventListener("load", () => {
-    let textBoxContent = localStorage.getItem("textBoxContent");
-
-    textBox.innerHTML = textBoxContent;
-  });
-
-  textBox.addEventListener("input", function () {
-    textBox = document.querySelector(".note-editable.panel-body").innerHTML;
-    localStorage.setItem("textBoxContent", textBox);
-  });
-
-  responderBtn.addEventListener("click", function (event) {
-    localStorage.setItem("textBoxContent", "");
-  });
 }
 
 // // Create the new container div

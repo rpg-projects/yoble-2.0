@@ -14,8 +14,6 @@ loginBtn.addEventListener("click", () => {
       window.location.href = lastPage;
 
       localStorage.setItem("trocou_char", "naoTrocou");
-    } else {
-      window.location.href = `https://yoble.${domain}/Main`;
     }
   }, 500);
 });
