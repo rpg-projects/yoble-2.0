@@ -1,5 +1,4 @@
 let savedRange = null;
-let appliedSpan = null;
 
 const editableDiv = document.querySelector(".note-editable.panel-body");
 if (editableDiv) {
@@ -15,7 +14,6 @@ function saveSelection() {
 
 function restoreSelection() {
   if (!savedRange) return null;
-
   const sel = window.getSelection();
   sel.removeAllRanges();
   sel.addRange(savedRange.cloneRange());
@@ -27,7 +25,7 @@ document
     ".note-color.btn-group .btn-group .dropdown-menu li .btn-group"
   )
   .forEach((item, index) => {
-    const colorType = index === 0 ? "backgroundColor" : "color";
+    const colorType = index === 0 ? "backgroundColor" : "color"; // fundo ou texto
 
     const wrapper = document.createElement("div");
     const label = document.createElement("label");
@@ -39,10 +37,9 @@ document
     colorInput.type = "color";
     colorInput.title = "Escolher cor";
 
-    // Save selection before input steals focus
+    // Salva a seleção antes de abrir o seletor de cor
     colorInput.addEventListener("mousedown", () => {
       saveSelection();
-      appliedSpan = null;
     });
 
     colorInput.addEventListener("input", function () {
@@ -50,28 +47,28 @@ document
       const range = restoreSelection();
       if (!range || range.collapsed) return;
 
-      // Wrap selected content once
-      if (!appliedSpan) {
-        appliedSpan = document.createElement("span");
-        appliedSpan.style[colorType] = color;
+      // Cria um novo span com a cor aplicada
+      const span = document.createElement("span");
 
-        const contents = range.extractContents();
-        appliedSpan.appendChild(contents);
-        range.insertNode(appliedSpan);
-      } else {
-        // Just update the existing span
-        appliedSpan.style[colorType] = color;
-      }
+      // Copia estilos já existentes da seleção (se houver)
+      span.style.cssText =
+        range.startContainer.parentNode?.style?.cssText || "";
 
-      // Optional: reselect the span if needed
+      // Aplica o novo estilo de cor
+      span.style[colorType] = color;
+
+      // Insere o conteúdo da seleção dentro do novo span
+      const contents = range.extractContents();
+      span.appendChild(contents);
+      range.insertNode(span);
+
+      // Remove visualmente a seleção
       const sel = window.getSelection();
       sel.removeAllRanges();
-      const newRange = document.createRange();
-      newRange.selectNodeContents(appliedSpan);
-      sel.addRange(newRange);
 
-      // Save new range so it works again
-      savedRange = newRange.cloneRange();
+      // Salva novamente o range com o novo span
+      savedRange = document.createRange();
+      savedRange.selectNodeContents(span);
     });
 
     wrapper.appendChild(label);
