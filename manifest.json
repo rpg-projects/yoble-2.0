@@ -45,7 +45,7 @@
         "https://yoble.com.br/Main/communities/*/topic/*",
         "https://yoble.com.br./Main/communities/*/topic/*"
       ],
-      "js": ["insert-link-button.js"]
+      "js": ["insert-link-button.js", "color-picker.js"]
     },
     {
       "matches": [
